@@ -1,0 +1,51 @@
+.btn-space-right {
+    margin-right: 1%;
+}
+
+/* Height for devices larger than 576px */
+@media (min-width: 992px) {
+    #intro {
+        margin-top: -58.59px;
+    }
+}
+
+.navbar .nav-link {
+    color: #fff !important;
+}
+
+.card-bg-grey {
+    background-color: #B5B5B5;
+}
+
+.form-control {
+    background-color: #E2E2E9;
+}
+
+.jobDetails textarea {
+    resize: none;
+}
+
+.listGroupOverview {
+    background-color: white;
+    padding-top: 10%;
+
+}
+
+.detailComponent {
+    margin-top: 7rem;
+}
+
+.bg-light {
+    border: none;
+}
+
+.btn-right {
+    text-align: right;
+}
+
+.list-group {
+    margin-top: 1rem;
+}
+.detail-spacing {
+    margin-bottom: 1rem;
+}
