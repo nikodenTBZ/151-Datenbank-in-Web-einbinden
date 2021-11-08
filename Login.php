@@ -6,5 +6,4 @@
     <?php require "./view/includes/loginCard.php" ?>
     <?php require "./view/includes/footer.php" ?>
 </body>
-
 </html>

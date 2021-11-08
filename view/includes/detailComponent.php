@@ -27,8 +27,16 @@ $_SESSION['activeJob'] = $job;
                     <!-- <div class="col-sm-2 btn-right"><button type="button" class="btn-right btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></div>
                     <div class="col-sm-2 btn-right"><button type="button" class="btn-right btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptModal">Accept</button></div> -->
                     <div class="col-sm-3 btn-right">
-                        <button type="button" class="btn-right btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" >Delete</button>
-                        <button type="button" class="btn-right btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptModal" >Accept</button>
+                        <?php if ($job['jobAceptor'] !== null && $_SESSION['email'] === $job['jobProvider']) { ?>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#payModal">Pay</button>
+                        <?php }
+                        if ($_SESSION['email'] === $job['jobProvider']) { ?>
+                            <button type="button" class="btn-right btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                        <?php } else if ($job['jobAceptor'] !== null) { ?>
+                            <button type="button" class="btn-right btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptModal" disabled>Accept</button>
+                        <?php } else { ?>
+                            <button type="button" class="btn-right btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptModal">Accept</button>
+                        <?php } ?>
                     </div>
 
                 </div>
@@ -44,6 +52,10 @@ $_SESSION['activeJob'] = $job;
                 <!-- AcceptJobModal -->
                 <div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <?php require "./view/includes/acceptJobModal.php" ?>
+                </div>
+                <!-- PayJobModal -->
+                <div class="modal fade" id="payModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <?php require "./view/includes/payJobModal.php" ?>
                 </div>
 
 

@@ -1,14 +1,20 @@
 <?php
-if (file_exists("../model/Database.php")) {
-    include "../model/Database.php";
-} else if (file_exists("./model/Database.php")) {
-    include "./model/Database.php";
+if (file_exists("../model/JobDatabase.php")) {
+    include "../model/JobDatabase.php";
+} else if (file_exists("./model/JobDatabase.php")) {
+    include "./model/JobDatabase.php";
+}
+
+if (file_exists("../model/UserDatabase.php")) {
+    include "../model/UserDatabase.php";
+} else if (file_exists("./model/UserDatabase.php")) {
+    include "./model/UserDatabase.php";
 }
 
 function getProducts()
 {
 
-    $conn = db_connect();
+    $conn = job_db_connect();
 
     $sql = "SELECT * FROM job";
 
@@ -19,7 +25,7 @@ function getProducts()
 
 function verifyLogin($email, $password)
 {
-    $conn = db_connect();
+    $conn = user_db_connect();
     $sql = 'SELECT * from user';
 
     $result = $conn->query($sql);
@@ -41,7 +47,7 @@ function verifyLogin($email, $password)
 
 function register($email, $password)
 {
-    $conn = db_connect();
+    $conn = user_db_connect();
     $sql = 'SELECT * from user';
 
 
@@ -51,7 +57,7 @@ function register($email, $password)
         // output data of each row
         foreach ($result as $row) {
             if ($row['email'] == $email) {
-                $_SESSION['errorMessage'] = (string)new Toast(3);
+                $_SESSION['errorMessage'] = 'Something went wrong while Registering, please try again or contect the site admin';
                 return false;
             }
         }
@@ -82,31 +88,26 @@ function register($email, $password)
 
 function getProductById($id)
 {
-    $conn = db_connect();
+    $conn = job_db_connect();
     $sql = "SELECT * from job where id = $id";
-
-    $stmt = mysqli_prepare($conn, $sql);
 
     $result = $conn->query($sql);
 
     return mysqli_fetch_array($result);
-
 }
 
 function acceptJob($jobId, $userEmail)
 {
-
-    $conn = db_connect();
-    $sql = "UPDATE job SET jobAceptor=$userEmail WHERE id=$jobId";
-
-    $stmt = mysqli_prepare($conn, $sql);
+    $conn = job_db_connect();
+    $sql = "UPDATE job SET jobAceptor='$userEmail' WHERE id=$jobId";
 
     $result = $conn->query($sql);
+    return mysqli_fetch_array($result);
 }
 
 function createJob($jobName, $jobDescription, $jobDateAndTime, $jobSalary, $jobProvider)
 {
-    $conn = db_connect();
+    $conn = job_db_connect();
     $sql = "INSERT INTO job (name, details, dateAndTime, salaryPerHour, jobProvider) VALUES (?,?,?,?,?)";
 
 
@@ -120,4 +121,11 @@ function createJob($jobName, $jobDescription, $jobDateAndTime, $jobSalary, $jobP
     }
 }
 
-?>
+function deleteJob($jobID)
+{
+    $conn = job_db_connect();
+    $sql = "DELETE FROM job WHERE id=$jobID";
+
+    $result = $conn->query($sql);
+    return mysqli_fetch_array($result);
+}
